@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attack on Titan Fan Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s;
+        }
+
+        header video {
+            width: 100%;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+        }
+
+        .header-content {
+            position: relative;
+            text-align: center;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            animation: slideIn 1s;
+        }
+
+        nav {
+            margin: 20px 0;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.2em;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        #character-section,
+        #episode-section,
+        #comment-section,
+        #gallery-section,
+        #forum-section,
+        #quiz-section {
+            margin-top: 40px;
+        }
+
+        #character-list,
+        #episode-list,
+        #gallery-list,
+        #forum-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .character-card,
+        .episode-card,
+        .gallery-card,
+        .forum-card {
+            background-color: #444;
+            border: 1px solid #666;
+            border-radius: 5px;
+            width: 200px;
+            padding: 10px;
+            text-align: center;
+            transition: transform 0.3s, opacity 0.3s;
+            opacity: 0;
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        .character-card img,
+        .gallery-card img {
+            width: 100%;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+
+        .character-card:hover,
+        .episode-card:hover,
+        .gallery-card:hover {
+            transform: scale(1.05);
+        }
+
+        .character-card img:hover,
+        .gallery-card img:hover {
+            transform: scale(1.1); /* Aumenta a imagem ao passar o mouse */
+        }
+
+        footer {
+            background-color: #333;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            animation: fadeIn 1s;
+        }
+
+        #search {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        #comment-form,
+        #forum-form {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #comments,
+        #forum-comments {
+            margin-top: 20px;
+        }
+
+        .comment,
+        .forum-comment {
+            background-color: #444;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .star {
+            cursor: pointer;
+            font-size: 20px;
+            color: #FFD700; /* Cor dourada */
+        }
+
+        @media (max-width: 600px) {
+            .character-card,
+            .episode-card,
+            .gallery-card {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <video autoplay muted loop>
+            <source src="videos/Attack on Titan the final chapter credit and post credit scene (4K 60FPS) With Original Song.mp4" type="video/mp4"> <!-- Substitua pelo URL do seu vídeo -->
+            Seu navegador não suporta o elemento de vídeo.
+        </video>
+        <div class="header-content">
+            <h1>Attack on Titan Fan Site</h1>
+            <nav>
+                <a href="#character-section">Personagens</a>
+                <a href="#episode-section">Episódios</a>
+                <a href="#comment-section">Comentários</a>
+                <a href="#gallery-section">Galeria</a>
+                <a href="#forum-section">Fórum</a>
+                <a href="#quiz-section">Quiz</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div id="search">
+            <input type="text" id="search-bar" placeholder="Buscar personagem..." onkeyup="searchCharacter()">
+        </div>
+
+        <section id="character-section">
+            <h2>Personagens Principais</h2>
+            <div id="character-list"></div>
+        </section>
+
+        <section id="episode-section">
+            <h2>Episódios</h2>
+            <div id="episode-list"></div>
+        </section>
+
+        <section id="comment-section">
+            <h2>Comentários</h2>
+            <div id="comment-form">
+                <input type="text" id="comment-input" placeholder="Deixe seu comentário...">
+                <button onclick="addComment()">Enviar</button>
+            </div>
+            <div id="comments"></div>
+        </section>
+
+        <section id="gallery-section">
+            <h2>Galeria de Imagens</h2>
+            <div id="gallery-list"></div>
+        </section>
+
+        <section id="forum-section">
+            <h2>Fórum de Discussão</h2>
+            <div id="forum-form">
+                <input type="text" id="forum-input" placeholder="Deixe seu comentário no fórum...">
+                <button onclick="addForumComment()">Enviar</button>
+            </div>
+            <div id="forum-comments"></div>
+        </section>
+
+        <section id="quiz-section">
+            <h2>Quiz</h2>
+            <button onclick="takeQuiz()">Começar Quiz</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Attack on Titan Fan Site. Nicolly da Paixão de Paula AINNNNNNNNNNNNNNNN</p>
+    </footer>
+
+    <script>
+        const characters = [
+            {
+                name: "Eren Yeager",
+                description: "O protagonista da série, que se torna o portador do poder do Titã.",
+                image: "assets/Eren 2.jpg" // Substitua pelo nome do seu arquivo de imagem local
+            },
+            {
+                name: "Mikasa Ackerman",
+                description: "Amiga de infância de Eren, é uma lutadora excepcional.",
+                image: "assets/Mikasa-Phone-Wallpapers.jpg" // Substitua pelo nome do seu arquivo de imagem local
+            },
+            {
+                name: "Armin Arlert",
+                description: "O melhor amigo de Eren e Mikasa, conhecido por sua inteligência.",
+                image: "assets/Armin Alert.jpg" // Substitua pelo nome do seu arquivo de imagem local
+            },
+            {
+                name: "Levi Ackerman",
+                description: "Capitão da Tropa de Exploração, conhecido como o soldado mais forte da humanidade.",
+                image: "assets/Levi.jpg" // Substitua pelo nome do seu arquivo de imagem local
+            },
+            {
+                name: "Historia Reiss",
+                description: "A verdadeira herdeira do trono de Eldia, conhecida por sua força e determinação.",
+                image: "assets/Historia reiss.jpg" // Substitua pelo nome do seu arquivo de imagem local
+            }
+        ];
+
+        const episodes = [
+            { title: "Episódio 1", description: "O que é um Titã?", airDate: "6 de abril de 2013" },
+            { title: "Episódio 2", description: "O lado da humanidade", airDate: "13 de abril de 2013" },
+            { title: "Episódio 2", description: "O lado da humanidade", airDate: "13 de abril de 2013" },
+            { title: "Episódio 3", description: "A estrada para o futuro", airDate: "20 de abril de 2013" },
+        ];
+
+        const galleryImages = [
+            { src: "assets/gl1.jpg" }, // Substitua pelo nome do seu arquivo de imagem local
+            { src: "assets/gl4.jpg" }, // Substitua pelo nome do seu arquivo de imagem local
+            { src: "assets/gl3.jpg" }   // Substitua pelo nome do seu arquivo de imagem local
+        ];
+
+        let comments = JSON.parse(localStorage.getItem('comments')) || [];
+        let forumComments = JSON.parse(localStorage.getItem('forumComments')) || [];
+
+        function displayCharacters() {
+            const characterList = document.getElementById('character-list');
+            characterList.innerHTML = '';
+            characters.forEach(character => {
+                const card = document.createElement('div');
+                card.className = 'character-card';
+                card.innerHTML = `
+                    <img src="${character.image}" alt="${character.name}">
+                    <h3>${character.name}</h3>
+                    <p>${character.description}</p>
+                    <div class="rating">
+                        <span class="star" onclick="rateCharacter('${character.name}', 1)">★</span>
+                        <span class="star" onclick="rateCharacter('${character.name}', 2)">★</span>
+                        <span class="star" onclick="rateCharacter('${character.name}', 3)">★</span>
+                        <span class="star" onclick="rateCharacter('${character.name}', 4)">★</span>
+                        <span class="star" onclick="rateCharacter('${character.name}', 5)">★</span>
+                    </div>
+                `;
+                characterList.appendChild(card);
+            });
+        }
+
+        function displayEpisodes() {
+            const episodeList = document.getElementById('episode-list');
+            episodeList.innerHTML = '';
+            episodes.forEach(episode => {
+                const card = document.createElement('div');
+                card.className = 'episode-card';
+                card.innerHTML = `
+                    <h3>${episode.title}</h3>
+                    <p>${episode.description}</p>
+                    <p><strong>Data de Exibição:</strong> ${episode.airDate}</p>
+                    <div class="rating">
+                        <span class="star" onclick="rateEpisode('${episode.title}', 1)">★</span>
+                        <span class="star" onclick="rateEpisode('${episode.title}', 2)">★</span>
+                        <span class="star" onclick="rateEpisode('${episode.title}', 3)">★</span>
+                        <span class="star" onclick="rateEpisode('${episode.title}', 4)">★</span>
+                        <span class="star" onclick="rateEpisode('${episode.title}', 5)">★</span>
+                    </div>
+                `;
+                episodeList.appendChild(card);
+            });
+        }
+
+        function displayGallery() {
+            const galleryList = document.getElementById('gallery-list');
+            galleryList.innerHTML = '';
+            galleryImages.forEach(image => {
+                const card = document.createElement('div');
+                card.className = 'gallery-card';
+                card.innerHTML = `<img src="${image.src}" alt="Imagem da Galeria">`;
+                galleryList.appendChild(card);
+            });
+        }
+
+        function addComment() {
+            const commentInput = document.getElementById('comment-input');
+            if (commentInput.value.trim()) {
+                comments.push(commentInput.value);
+                localStorage.setItem('comments', JSON.stringify(comments));
+                displayComments();
+                commentInput.value = '';
+            }
+        }
+
+        function displayComments() {
+            const commentsContainer = document.getElementById('comments');
+            commentsContainer.innerHTML = '';
+            comments.forEach(comment => {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'comment';
+                commentDiv.textContent = comment;
+                commentsContainer.appendChild(commentDiv);
+            });
+        }
+
+        function addForumComment() {
+            const forumInput = document.getElementById('forum-input');
+            if (forumInput.value.trim()) {
+                forumComments.push(forumInput.value);
+                localStorage.setItem('forumComments', JSON.stringify(forumComments));
+                displayForumComments();
+                forumInput.value = '';
+            }
+        }
+
+        function displayForumComments() {
+            const forumCommentsContainer = document.getElementById('forum-comments');
+            forumCommentsContainer.innerHTML = '';
+            forumComments.forEach(comment => {
+                const forumCommentDiv = document.createElement('div');
+                forumCommentDiv.className = 'forum-comment';
+                forumCommentDiv.textContent = comment;
+                forumCommentsContainer.appendChild(forumCommentDiv);
+            });
+        }
+
+        function searchCharacter() {
+            const query = document.getElementById('search-bar').value.toLowerCase();
+            const characterList = document.getElementById('character-list');
+            characterList.innerHTML = '';
+            characters.forEach(character => {
+                if (character.name.toLowerCase().includes(query)) {
+                    const card = document.createElement('div');
+                    card.className = 'character-card';
+                    card.innerHTML = `
+                        <img src="${character.image}" alt="${character.name}">
+                        <h3>${character.name}</h3>
+                        <p>${character.description}</p>
+                    `;
+                    characterList.appendChild(card);
+                }
+            });
+        }
+
+        function rateCharacter(characterName, rating) {
+            alert(`Você avaliou ${characterName} com ${rating} estrelas!`);
+        }
+
+        function rateEpisode(episodeTitle, rating) {
+            alert(`Você avaliou ${episodeTitle} com ${rating} estrelas!`);
+        }
+
+        function takeQuiz() {
+            alert("Em breve, quiz sobre Attack on Titan!");
+        }
+
+        window.onload = function () {
+            displayCharacters();
+            displayEpisodes();
+            displayGallery();
+            displayComments();
+            displayForumComments();
+        };
+    </script>
+</body>
+
+</html>
